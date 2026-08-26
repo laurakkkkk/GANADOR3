@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Digitalización Colombia · Transformación Digital de la Administración Pública</title>
+    <meta name="description" content="Análisis de la transformación digital en la administración pública colombiana. Estrategias, avances, desafíos y el futuro de la gestión pública digital."/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        digital: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+        body { overflow-x: hidden; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        * { box-sizing: border-box; }
+        .gradient-hero {
+            background: linear-gradient(135deg, #0c0a1e 0%, #064e3b 30%, #1e3a8a 60%, #0c0a1e 100%);
+        }
+        .gradient-accent {
+            background: linear-gradient(135deg, #059669, #10b981, #34d399);
+        }
+        .gradient-digital {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6, #60a5fa);
+        }
+        .gradient-stats {
+            background: linear-gradient(135deg, #064e3b, #059669, #10b981);
+        }
+        .card-float {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-float:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
+        }
+        .text-gradient-green {
+            background: linear-gradient(135deg, #059669, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-pattern-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .floating-badge {
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .glow-text {
+            text-shadow: 0 0 60px rgba(16, 185, 129, 0.15);
+        }
+        @media (max-width: 640px) {
+            .hero-title { font-size: clamp(1.8rem, 7vw, 2.6rem); line-height: 1.1; }
+            .section-title { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+        }
+
+        /* ===== MODAL COOKIES ===== */
+        #cookieModal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInBlur 0.5s ease;
+        }
+
+        #cookieModal > div {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 40px 36px 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: slideUpModal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #cookieModal .cookie-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.3);
+        }
+
+        #cookieModal h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #064e3b;
+            margin: 0 0 12px 0;
+            line-height: 1.2;
+        }
+
+        #cookieModal p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.7;
+            margin: 0 0 24px 0;
+            max-width: 400px;
+        }
+
+        #cookieModal .cookie-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        #acceptCookies {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+        }
+
+        #acceptCookies:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.4);
+        }
+
+        #acceptCookies:active {
+            transform: scale(0.96);
+        }
+
+        #cookieModal .cookie-link {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-top: 12px;
+            transition: color 0.2s;
+        }
+
+        #cookieModal .cookie-link:hover {
+            color: #059669;
+        }
+
+        @keyframes fadeInBlur {
+            from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+            to { opacity: 1; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        }
+
+        @keyframes slideUpModal {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (max-width: 480px) {
+            #cookieModal { padding: 12px; align-items: flex-end; }
+            #cookieModal > div {
+                padding: 28px 20px 24px;
+                border-radius: 24px 24px 0 0;
+                max-width: 100%;
+                max-height: 85vh;
+            }
+            #cookieModal h2 { font-size: 1.3rem; }
+            #cookieModal p { font-size: 0.85rem; margin-bottom: 18px; }
+            #acceptCookies { padding: 14px 20px; font-size: 0.95rem; border-radius: 12px; }
+        }
+
+        @media (max-width: 380px) {
+            #cookieModal > div { padding: 22px 16px 20px; border-radius: 20px 20px 0 0; }
+            #cookieModal h2 { font-size: 1.15rem; margin-bottom: 8px; }
+            #cookieModal p { font-size: 0.8rem; margin-bottom: 14px; line-height: 1.6; }
+            #acceptCookies { padding: 12px 16px; font-size: 0.9rem; border-radius: 10px; }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            #cookieModal { align-items: center; padding: 10px; }
+            #cookieModal > div { padding: 20px 24px; max-height: 80vh; border-radius: 20px; }
+            #cookieModal h2 { font-size: 1.2rem; margin-bottom: 6px; }
+            #cookieModal p { font-size: 0.8rem; margin-bottom: 12px; line-height: 1.5; }
+            #acceptCookies { padding: 10px 20px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 font-sans antialiased">
+
+    <!-- ============================================================ -->
+    <!-- MODAL DE COOKIES - SIEMPRE AL INICIO -->
+    <!-- ============================================================ -->
+    <div id="cookieModal">
+        <div>
+            <div class="cookie-icon">🍪</div>
+            <h2>Uso de Cookies</h2>
+            <p>Utilizamos cookies para garantizar el funcionamiento correcto del sitio, mejorar tu experiencia y analizar el tráfico de manera anónima.</p>
+            <div class="cookie-buttons">
+                <button id="acceptCookies">Aceptar cookies</button>
+            </div>
+            <a href="#" class="cookie-link">Ver política de privacidad</a>
+        </div>
+    </div>
+
+    <!-- BANNER SUPERIOR -->
+    <div class="gradient-accent text-white text-center py-2.5 px-4 text-xs sm:text-sm font-medium relative z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 flex-wrap">
+            <i data-lucide="cpu" class="w-4 h-4 shrink-0 text-white/80"></i>
+            <span><strong>Transformación Digital 2026:</strong> La administración pública colombiana en la era digital</span>
+            <i data-lucide="chevron-right" class="w-3 h-3 shrink-0 text-white/60"></i>
+            <span class="hidden sm:inline">Innovación · Eficiencia · Transparencia</span>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 w-full bg-white/98 backdrop-blur-md border-b border-emerald-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center min-h-[76px] py-2 gap-3">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="p-2.5 gradient-accent rounded-xl shadow-lg group-hover:scale-105 transition-transform">
+                        <i data-lucide="laptop" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-slate-900 block leading-none">Digi<span class="text-gradient-green">Admin</span></span>
+                        <span class="text-[10px] font-bold text-brand-600 tracking-wider uppercase block mt-0.5">Transformación Digital</span>
+                    </div>
+                </a>
+
+                <nav class="hidden xl:flex items-center space-x-8 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <a href="#panorama" class="hover:text-brand-600 transition-colors">Panorama</a>
+                    <a href="#estrategias" class="hover:text-brand-600 transition-colors">Estrategias</a>
+                    <a href="#avances" class="hover:text-brand-600 transition-colors">Avances</a>
+                    <a href="#beneficios" class="hover:text-brand-600 transition-colors">Beneficios</a>
+                    <a href="#desafios" class="hover:text-brand-600 transition-colors">Desafíos</a>
+                    <a href="#futuro" class="hover:text-brand-600 transition-colors">Futuro</a>
+                </nav>
+
+                <div class="hidden xl:flex items-center gap-3">
+                    <a href="#avances" class="px-5 py-2.5 gradient-accent hover:shadow-lg text-white font-bold rounded-xl text-xs tracking-wider uppercase shadow-md transition-all">
+                        Ver Avances
+                    </a>
+                </div>
+
+                <button id="mobile-menu-btn" class="xl:hidden p-2 rounded-lg text-slate-600 hover:bg-emerald-50">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden xl:hidden border-t border-emerald-100 bg-white px-4 pt-2 pb-6 space-y-2">
+            <a href="#panorama" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Panorama</a>
+            <a href="#estrategias" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Estrategias</a>
+            <a href="#avances" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Avances</a>
+            <a href="#beneficios" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Beneficios</a>
+            <a href="#desafios" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Desafíos</a>
+            <a href="#futuro" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-emerald-50">Futuro</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="gradient-hero text-white py-24 sm:py-32 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-pattern-grid"></div>
+            <div class="absolute top-20 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-6 floating-badge">
+                            <i data-lucide="zap" class="w-4 h-4"></i>
+                            Transformación Digital · Colombia 2026
+                        </div>
+                        <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6 glow-text">
+                            La <span class="text-emerald-400">Revolución Digital</span> de la Administración Pública
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg">
+                            Colombia avanza hacia una administración pública digital, eficiente y transparente. Conoce las estrategias, avances y el impacto de la transformación digital en el Estado colombiano.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#avances" class="px-8 py-3.5 gradient-accent hover:shadow-xl text-white font-extrabold rounded-xl text-center transition-all text-sm shadow-lg">
+                                Explorar Avances
+                            </a>
+                            <a href="#futuro" class="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl text-center backdrop-blur transition-all text-sm">
+                                Ver Futuro
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-6 mt-8 text-xs text-slate-400">
+                            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> 87% de trámites digitales</span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> 15 millones de usuarios</span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> +50 entidades conectadas</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="bg-white/10 backdrop-blur-xl border border-white/15 p-6 sm:p-8 rounded-3xl shadow-2xl">
+                            <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-5">
+                                <div class="p-2.5 bg-emerald-500/20 rounded-xl">
+                                    <i data-lucide="trending-up" class="w-6 h-6 text-emerald-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-lg">Impacto Digital</h3>
+                                    <p class="text-xs text-slate-400">Métricas clave de transformación</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-slate-300 text-xs">Trámites digitales vs presenciales</span>
+                                    <span class="font-bold text-emerald-400 text-sm">87% vs 13%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-slate-300 text-xs">Ahorro en tiempo de gestión</span>
+                                    <span class="font-bold text-blue-400 text-sm">-72% promedio</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                                    <span class="text-slate-300 text-xs">Satisfacción ciudadana</span>
+                                    <span class="font-bold text-amber-400 text-sm">4.5/5 estrellas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="relative z-20 -mt-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-2xl p-5 text-center shadow-lg border border-emerald-100 card-float">
+                        <div class="text-3xl font-black text-brand-600">87%</div>
+                        <div class="text-xs text-slate-500 font-medium">Trámites digitales</div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 text-center shadow-lg border border-emerald-100 card-float">
+                        <div class="text-3xl font-black text-brand-600">15M</div>
+                        <div class="text-xs text-slate-500 font-medium">Usuarios digitales</div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 text-center shadow-lg border border-emerald-100 card-float">
+                        <div class="text-3xl font-black text-blue-600">50+</div>
+                        <div class="text-xs text-slate-500 font-medium">Entidades conectadas</div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 text-center shadow-lg border border-emerald-100 card-float">
+                        <div class="text-3xl font-black text-amber-500">4.5★</div>
+                        <div class="text-xs text-slate-500 font-medium">Satisfacción ciudadana</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANORAMA -->
+        <section id="panorama" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Contexto Actual</span>
+                    <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl">El Estado <span class="text-gradient-green">Digital</span> en Colombia</h2>
+                    <p class="mt-4 text-slate-600 text-sm leading-relaxed">La transformación digital de la administración pública colombiana es un proceso en marcha que busca modernizar el Estado, mejorar la eficiencia y acercar los servicios a los ciudadanos.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50 card-float text-center">
+                        <div class="text-4xl mb-3">📱</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Gobierno Móvil</h3>
+                        <p class="text-xs text-slate-600 mt-1">Aplicaciones y portales móviles para acceso ciudadano 24/7</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50 card-float text-center">
+                        <div class="text-4xl mb-3">🤖</div>
+                        <h3 class="font-bold text-slate-900 text-sm">IA y Automatización</h3>
+                        <p class="text-xs text-slate-600 mt-1">Chatbots, análisis predictivo y automatización de procesos</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50 card-float text-center">
+                        <div class="text-4xl mb-3">🔗</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Interoperabilidad</h3>
+                        <p class="text-xs text-slate-600 mt-1">Sistemas conectados que comparten información en tiempo real</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50 card-float text-center">
+                        <div class="text-4xl mb-3">🛡️</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Ciberseguridad</h3>
+                        <p class="text-xs text-slate-600 mt-1">Protección de datos y privacidad ciudadana</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ESTRATEGIAS -->
+        <section id="estrategias" class="py-20 bg-emerald-50/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Hoja de Ruta</span>
+                    <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl">Estrategias de <span class="text-gradient-green">Transformación Digital</span></h2>
+                    <p class="mt-4 text-slate-600 text-sm">Las principales iniciativas que impulsan la digitalización del Estado colombiano.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 gradient-accent"></div>
+                        <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center mb-4">
+                            <i data-lucide="file-text" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Ventanilla Única</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Centralización de trámites y servicios en un solo portal digital. Reducción de tiempos y eliminación de barreras burocráticas.</p>
+                        <div class="mt-4 text-xs font-semibold text-brand-600">+120 trámites digitales</div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 gradient-digital"></div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4">
+                            <i data-lucide="database" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Datos Abiertos</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Publicación de datos gubernamentales para transparencia, innovación y toma de decisiones basada en evidencia.</p>
+                        <div class="mt-4 text-xs font-semibold text-blue-600">+5.000 datasets disponibles</div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-amber-400"></div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-4">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Capacitación Digital</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Formación de funcionarios públicos en competencias digitales para una atención ciudadana de calidad y eficiente.</p>
+                        <div class="mt-4 text-xs font-semibold text-amber-600">+50.000 funcionarios capacitados</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AVANCES -->
+        <section id="avances" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Logros 2024-2026</span>
+                    <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl">Avances en la <span class="text-gradient-blue">Digitalización</span></h2>
+                    <p class="mt-4 text-slate-600 text-sm">Los hitos más importantes alcanzados en el proceso de transformación digital de la administración pública.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-gradient-digital text-white p-8 rounded-3xl shadow-xl">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <i data-lucide="bar-chart" class="w-6 h-6 text-emerald-300"></i>
+                            Indicadores Clave de Avance
+                        </h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Trámites digitales activos</span>
+                                    <span class="font-bold text-emerald-300">87%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-400 rounded-full" style="width: 87%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Entidades con interoperabilidad</span>
+                                    <span class="font-bold text-blue-300">62%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-400 rounded-full" style="width: 62%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Ciudadanos con firma digital</span>
+                                    <span class="font-bold text-amber-300">45%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-amber-400 rounded-full" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Servicios con IA implementada</span>
+                                    <span class="font-bold text-purple-300">28%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-purple-400 rounded-full" style="width: 28%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 card-float">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-emerald-500/20 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Ciudadanía Digital</h4>
+                                    <p class="text-xs text-slate-600">Implementación del sistema de identidad digital para acceso a servicios públicos</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-blue-50 rounded-2xl border border-blue-200 card-float">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-blue-500/20 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Portal Único</h4>
+                                    <p class="text-xs text-slate-600">Unificación de 150 portales en una sola plataforma de acceso ciudadano</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-amber-50 rounded-2xl border border-amber-200 card-float">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-amber-500/20 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-amber-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Inteligencia Artificial</h4>
+                                    <p class="text-xs text-slate-600">Chatbots y asistentes virtuales para atención ciudadana 24/7 en 5 entidades</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-purple-50 rounded-2xl border border-purple-200 card-float">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-purple-500/20 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Blockchain</h4>
+                                    <p class="text-xs text-slate-600">Proyecto piloto de certificación digital con tecnología blockchain en registros públicos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFICIOS -->
+        <section id="beneficios" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Impacto Ciudadano</span>
+                    <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl">Beneficios de la <span class="text-gradient-green">Administración Digital</span></h2>
+                    <p class="mt-4 text-slate-600 text-sm">La transformación digital genera beneficios tangibles para los ciudadanos y la gestión pública.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float text-center">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="clock" class="w-8 h-8 text-emerald-600"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Menos Tiempo</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Reducción del 72% en tiempos de gestión de trámites. Eliminación de filas y desplazamientos innecesarios.</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="eye" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Más Transparencia</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Acceso a información pública en tiempo real. Trazabilidad de trámites y seguimiento de procesos.</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm card-float text-center">
+                        <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="shield-check" class="w-8 h-8 text-amber-600"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Mayor Seguridad</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Protección de datos personales, autenticación biométrica y sistemas de ciberseguridad avanzados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DESAFÍOS -->
+        <section id="desafios" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6">
+                        <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Obstáculos por Superar</span>
+                        <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl mb-6">Desafíos de la <span class="text-gradient-blue">Transformación Digital</span></h2>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">A pesar de los avances, la digitalización del Estado colombiano enfrenta importantes desafíos que deben abordarse para garantizar su éxito.</p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 bg-red-50 rounded-xl border border-red-200">
+                                <div class="p-2 bg-red-500/20 rounded-lg shrink-0">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Brecha Digital</h4>
+                                    <p class="text-xs text-slate-600">Acceso limitado a internet y dispositivos en zonas rurales y poblaciones vulnerables.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                                <div class="p-2 bg-amber-500/20 rounded-lg shrink-0">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Resistencia al Cambio</h4>
+                                    <p class="text-xs text-slate-600">Cultura organizacional y resistencia de funcionarios a adoptar nuevas tecnologías.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                                <div class="p-2 bg-blue-500/20 rounded-lg shrink-0">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5 text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Infraestructura</h4>
+                                    <p class="text-xs text-slate-600">Necesidad de inversión en infraestructura tecnológica y mantenimiento de sistemas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6">
+                        <div class="bg-slate-900 p-8 rounded-3xl shadow-2xl text-white">
+                            <h3 class="text-xl font-bold text-emerald-400 border-b border-slate-700 pb-4 mb-6 flex items-center gap-2">
+                                <i data-lucide="target" class="w-5 h-5"></i>
+                                Metas 2030
+                            </h3>
+                            <ul class="space-y-4 text-sm">
+                                <li class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <span class="font-bold text-white">Cobertura universal</span>
+                                        <p class="text-xs text-slate-400">100% de trámites disponibles en formato digital para 2030</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <span class="font-bold text-white">Inclusión digital</span>
+                                        <p class="text-xs text-slate-400">Reducción del 50% de la brecha digital en zonas rurales</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <span class="font-bold text-white">Interoperabilidad total</span>
+                                        <p class="text-xs text-slate-400">100% de entidades conectadas y compartiendo datos</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <span class="font-bold text-white">IA aplicada</span>
+                                        <p class="text-xs text-slate-400">Automatización del 60% de los procesos administrativos</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUTURO -->
+        <section id="futuro" class="py-20 bg-gradient-digital text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-300 mb-2 block">Visión 2030</span>
+                    <h2 class="section-title text-3xl font-black sm:text-4xl">El Futuro de la <span class="text-emerald-300">Administración Digital</span></h2>
+                    <p class="mt-4 text-slate-300 text-sm">Escenarios y tendencias que definirán la administración pública digital en Colombia.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white/10 backdrop-blur border border-white/15 p-8 rounded-2xl card-float text-center">
+                        <div class="text-5xl mb-4">🤖</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Gobierno con IA</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">La inteligencia artificial transformará la toma de decisiones, la atención ciudadana y la automatización de procesos administrativos.</p>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur border border-white/15 p-8 rounded-2xl card-float text-center">
+                        <div class="text-5xl mb-4">🌐</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Estado Conectado</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">Interoperabilidad total entre entidades, servicios en la nube y acceso universal desde cualquier dispositivo.</p>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur border border-white/15 p-8 rounded-2xl card-float text-center">
+                        <div class="text-5xl mb-4">🔐</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Confianza Digital</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">Ciberseguridad avanzada, identidad digital soberana y protección de datos como pilar fundamental del Estado digital.</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 p-6 bg-white/5 border border-white/10 rounded-2xl text-center">
+                    <p class="text-sm text-slate-300 max-w-2xl mx-auto">
+                        <span class="font-bold text-emerald-300">"La transformación digital del Estado no es una opción, es una necesidad para construir una sociedad más justa, transparente y eficiente."</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2 block">Asesoría Especializada</span>
+                    <h2 class="section-title text-3xl font-black text-slate-900 sm:text-4xl">¿Quieres saber más sobre <span class="text-gradient-green">Transformación Digital</span>?</h2>
+                    <p class="mt-4 text-slate-600 text-sm">Contáctanos para obtener informes detallados, análisis sectoriales o asesoría en digitalización de entidades públicas.</p>
+                </div>
+
+                <form class="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-md">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">Nombre completo</label>
+                            <input type="text" placeholder="Ana Martínez" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">Correo electrónico</label>
+                            <input type="email" placeholder="ana@email.com" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">Teléfono</label>
+                            <input type="tel" placeholder="+57 300 123 4567" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">Área de interés</label>
+                            <select class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option>Selecciona un área</option>
+                                <option>Estrategia Digital</option>
+                                <option>Interoperabilidad</option>
+                                <option>IA y Automatización</option>
+                                <option>Ciberseguridad</option>
+                                <option>Datos Abiertos</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">Mensaje</label>
+                            <textarea rows="3" placeholder="Describe tu interés en la transformación digital..." class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full mt-6 px-6 py-3.5 gradient-accent hover:shadow-xl text-white font-bold rounded-xl text-sm transition-all shadow-md">
+                        Solicitar Información
+                    </button>
+                    <p class="text-[10px] text-slate-400 text-center mt-4">Te responderemos en menos de 24 horas con información detallada</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 text-xs border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 text-white font-black text-xl mb-4">
+                        <div class="p-2 gradient-accent rounded-lg">
+                            <i data-lucide="laptop" class="w-5 h-5 text-white"></i>
+                        </div>
+                        DigiAdmin · Transformación Digital
+                    </div>
+                    <p class="text-slate-400 leading-relaxed max-w-md text-xs">
+                        Portal de análisis y divulgación sobre la transformación digital de la administración pública en Colombia. Información verificada y análisis objetivos para entender el futuro del Estado digital.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Navegación</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#panorama" class="hover:text-white transition-colors">Panorama</a></li>
+                        <li><a href="#estrategias" class="hover:text-white transition-colors">Estrategias</a></li>
+                        <li><a href="#avances" class="hover:text-white transition-colors">Avances</a></li>
+                        <li><a href="#futuro" class="hover:text-white transition-colors">Futuro</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Legal</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Términos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Exención de Responsabilidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-[11px]">
+                <p>&copy; 2026 DigiAdmin · Transformación Digital de la Administración Pública</p>
+                <p>Innovación · Eficiencia · Transparencia</p>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-slate-800/60 text-slate-500 text-[10px]">
+                <p><strong>Fuentes:</strong> Departamento Nacional de Planeación, MinTIC, Centro de Pensamiento Digital</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // ============================================================
+        // MODAL DE COOKIES - SIEMPRE AL INICIO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var cookieModal = document.getElementById('cookieModal');
+            var acceptBtn = document.getElementById('acceptCookies');
+
+            // Siempre mostrar el modal al cargar la página
+            cookieModal.style.display = 'flex';
+
+            // Cerrar el modal al aceptar cookies (sin redirección)
+            acceptBtn.addEventListener('click', function() {
+                cookieModal.style.display = 'none';
+            });
+        });
+
+        // Inicializar Lucide Icons
+        lucide.createIcons();
+
+        // Control Menú Móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth < 1280 && !mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') mobileMenu.classList.add('hidden');
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1280) mobileMenu.classList.add('hidden');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
